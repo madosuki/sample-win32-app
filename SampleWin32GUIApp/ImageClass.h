@@ -9,15 +9,15 @@
 class ImageClass
 {
 public:
-	ImageClass();
-	~ImageClass();
+    ImageClass();
+    ~ImageClass();
 
-	void SetImage(const std::wstring &filePath);
+    void SetImage(const std::wstring &filePath);
 
-	HBITMAP GetImage();
+    HBITMAP GetImage();
 
 private:
-	HBITMAP hbmp;
+    HBITMAP hbmp;
 
 };
 

@@ -23,8 +23,8 @@ class D2DRenderClass
 {
 public:
     D2DRenderClass();
-	D2DRenderClass(HWND hwnd);
-	~D2DRenderClass();
+    D2DRenderClass(HWND hwnd);
+    ~D2DRenderClass();
 
     template<class Interface>
     inline void
@@ -50,7 +50,7 @@ public:
     ID2D1SolidColorBrush* pBlackBrush = nullptr;
 
 
-	void DiscardDeviceResources();
+    void DiscardDeviceResources();
 
     HRESULT CreateD2Ddevice();
 

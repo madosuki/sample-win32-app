@@ -23,16 +23,16 @@ void D2DRenderClass::DiscardDeviceResources()
 HRESULT D2DRenderClass::CreateD2DText(const TextStruct &data)
 {
  
-	HRESULT result = pDirectWriteFactory->CreateTextFormat(
-		data.fontName.c_str(),
-		NULL,
-		DWRITE_FONT_WEIGHT_NORMAL,
-		DWRITE_FONT_STYLE_NORMAL,
-		DWRITE_FONT_STRETCH_NORMAL,
-		data.fontSize,
-		L"",
-		&pDWriteTextFormat
-	);
+    HRESULT result = pDirectWriteFactory->CreateTextFormat(
+        data.fontName.c_str(),
+        NULL,
+        DWRITE_FONT_WEIGHT_NORMAL,
+        DWRITE_FONT_STYLE_NORMAL,
+        DWRITE_FONT_STRETCH_NORMAL,
+        data.fontSize,
+        L"",
+        &pDWriteTextFormat
+    );
  
 
     if (SUCCEEDED(result)) {
@@ -142,7 +142,7 @@ HRESULT D2DRenderClass::OnRenderText(const TextStruct &data)
         result = CreateD2DText(data);
     }
 
-	if (SUCCEEDED(result)) {
+    if (SUCCEEDED(result)) {
         // static const WCHAR hello[] = L"Hello World in Y Gakuen!";
 
         D2D1_SIZE_F renderTargetSize = pRenderTarget->GetSize();

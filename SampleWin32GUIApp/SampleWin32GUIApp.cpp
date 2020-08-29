@@ -148,7 +148,7 @@ INT_PTR CALLBACK DialogProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 
     case WM_CLOSE:
         EndDialog(hwnd, IDOK);
-		return TRUE;
+        return TRUE;
 
     case WM_INITDIALOG:
 
