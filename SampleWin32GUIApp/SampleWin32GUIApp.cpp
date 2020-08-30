@@ -17,6 +17,7 @@ WCHAR szTitle[MAX_LOADSTRING];                  // タイトル バーのテキ�
 WCHAR szWindowClass[MAX_LOADSTRING];            // メイン ウィンドウ クラス名
 
 D2DRenderClass d2dclass;
+D2DRenderClass second;
 
 // このコード モジュールに含まれる関数の宣言を転送します:
 ATOM                MyRegisterClass(HINSTANCE hInstance);
@@ -120,6 +121,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 
 
    d2dclass = D2DRenderClass(hWnd);
+   second = D2DRenderClass(hWnd);
 
    int check = 0;
   
@@ -128,7 +130,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    auto dpi = GetDpiForWindow(hWnd);
 
 
-   HRESULT isSuccess = d2dclass.CreateD2Ddevice();
+   auto isSuccess = d2dclass.CreateD2Ddevice();
+   auto secondIsSuccess = second.CreateD2Ddevice();
 
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
@@ -237,6 +240,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             HDC hdc = BeginPaint(hWnd, &ps);
             // TODO: HDC を使用する描画コードをここに追加してください...
 
+            /*
             LPCWSTR str = L"ハローワールド";
             size_t n = wcslen(str);
 
@@ -245,12 +249,18 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             auto s = std::to_wstring(count);
 
             result = TextOut(hdc, 0, 20, s.c_str(), s.length());
+            */
 
-            auto textStruct = d2dclass.CreateTextStructData(L"Meyrio", L"Dwrite rendered textです", 12);
+            // auto textStruct = d2dclass.CreateTextStructData(L"Meyrio", L"Dwrite rendered textです", 12, DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
+            auto incrementValue = second.CreateTextStructData(L"Meyrio", L"Count: " + std::to_wstring(count), 32, DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER, 0, 92);
+
+            // auto incrementValue = d2dclass.CreateTextStructData(L"Meyrio", L"Count: " + std::to_wstring(count), 32, DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER, 0, 92);
       
 
 
-            auto hr = d2dclass.OnRenderText(textStruct);
+            // auto hr = d2dclass.OnRenderText(textStruct);
+            // hr = d2dclass.OnRenderText(incrementValue);
+            auto hr_second = second.OnRenderText(incrementValue);
 
             EndPaint(hWnd, &ps);
         }

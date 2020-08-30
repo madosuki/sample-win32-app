@@ -105,7 +105,7 @@ HRESULT D2DRenderClass::OnRender()
     HRESULT result = CreateD2DDeviceResource();
 
     if (SUCCEEDED(result)) {
-        static const WCHAR hello[] = L"Hello World in Y Gakuen!";
+        std::wstring hello = L"hello";
 
         D2D1_SIZE_F renderTargetSize = pRenderTarget->GetSize();
 
@@ -116,8 +116,8 @@ HRESULT D2DRenderClass::OnRender()
         pRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::White));
 
         pRenderTarget->DrawText(
-            hello,
-            ARRAYSIZE(hello) - 1,
+            hello.c_str(),
+            hello.size(),
             pDWriteTextFormat,
             D2D1::RectF(0, 0, renderTargetSize.width, renderTargetSize.height),
             pBlackBrush
