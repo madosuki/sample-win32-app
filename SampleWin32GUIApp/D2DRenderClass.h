@@ -6,6 +6,7 @@
 #include <dwrite.h>
 #include <string>
 #include <windows.h>
+#include <vector>
 
 typedef struct {
     std::wstring fontName;
@@ -49,6 +50,8 @@ public:
     ID2D1HwndRenderTarget* pRenderTarget = nullptr;
     ID2D1SolidColorBrush* pBlackBrush = nullptr;
 
+    std::vector<std::pair<IDWriteTextFormat*, TextStruct> > textList = {};
+
 
     void DiscardDeviceResources();
 
@@ -60,7 +63,7 @@ public:
 
     HRESULT OnRender();
 
-    HRESULT OnRenderText(const TextStruct &data);
+    HRESULT OnRenderText();
 
     TextStruct CreateTextStructData(const std::wstring& fontName, const std::wstring& text, const float &fontSize = 12.0,
         const DWRITE_TEXT_ALIGNMENT &textAlignment = DWRITE_TEXT_ALIGNMENT_CENTER, const DWRITE_PARAGRAPH_ALIGNMENT &paragraphAligment = DWRITE_PARAGRAPH_ALIGNMENT_CENTER, 

@@ -251,16 +251,23 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             result = TextOut(hdc, 0, 20, s.c_str(), s.length());
             */
 
-            // auto textStruct = d2dclass.CreateTextStructData(L"Meyrio", L"Dwrite rendered textです", 12, DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
-            auto incrementValue = second.CreateTextStructData(L"Meyrio", L"Count: " + std::to_wstring(count), 32, DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER, 0, 92);
+            auto textStruct = d2dclass.CreateTextStructData(L"Meyrio", L"Dwrite rendered textです", 12, DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
+            /*
+            auto incrementValue = second.CreateTextStructData(L"Meyrio", L"Count: " + std::to_wstring(count), 32,
+                DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER, 0, 92);
+                */
+            // second.CreateD2DText(incrementValue);
 
-            // auto incrementValue = d2dclass.CreateTextStructData(L"Meyrio", L"Count: " + std::to_wstring(count), 32, DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER, 0, 92);
+            auto incrementValue = d2dclass.CreateTextStructData(L"Meyrio", L"Count: " + std::to_wstring(count), 32, DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER, 0, 92);
+
+            d2dclass.CreateD2DText(textStruct);
+            d2dclass.CreateD2DText(incrementValue);
       
 
 
-            // auto hr = d2dclass.OnRenderText(textStruct);
+            auto hr = d2dclass.OnRenderText();
             // hr = d2dclass.OnRenderText(incrementValue);
-            auto hr_second = second.OnRenderText(incrementValue);
+            // auto hr_second = second.OnRenderText();
 
             EndPaint(hWnd, &ps);
         }

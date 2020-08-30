@@ -18,6 +18,12 @@ void D2DRenderClass::DiscardDeviceResources()
 {
     SafeRelease(&pRenderTarget);
     SafeRelease(&pBlackBrush);
+
+    for (auto i : textList) {
+        if (i.first != nullptr) {
+            SafeRelease(&i.first);
+        }
+    }
 }
 
 HRESULT D2DRenderClass::CreateD2DText(const TextStruct &data)
@@ -44,6 +50,9 @@ HRESULT D2DRenderClass::CreateD2DText(const TextStruct &data)
         printf_s("Detect Error at CreateTextFormat");
     }
 
+    textList.push_back(std::make_pair(pDWriteTextFormat, data));
+
+    // SafeRelease(&pDWriteTextFormat);
 
     return result;
 }
@@ -134,13 +143,15 @@ HRESULT D2DRenderClass::OnRender()
     return result;
 }
 
-HRESULT D2DRenderClass::OnRenderText(const TextStruct &data)
+HRESULT D2DRenderClass::OnRenderText()
 {
     HRESULT result = CreateD2DDeviceResource();
 
+    /*
     if (SUCCEEDED(result)) {
         result = CreateD2DText(data);
     }
+    */
 
     if (SUCCEEDED(result)) {
         // static const WCHAR hello[] = L"Hello World in Y Gakuen!";
@@ -149,17 +160,24 @@ HRESULT D2DRenderClass::OnRenderText(const TextStruct &data)
 
         pRenderTarget->BeginDraw();
 
-        pRenderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
+		pRenderTarget->SetTransform(D2D1::Matrix3x2F::Identity());
 
         pRenderTarget->Clear(D2D1::ColorF(D2D1::ColorF::White));
 
-        pRenderTarget->DrawText(
-            data.text.c_str(),
-            data.text.size(),
-            pDWriteTextFormat,
-            D2D1::RectF(data.left, data.top, renderTargetSize.width, renderTargetSize.height),
-            pBlackBrush
-        );
+
+        for (const auto& i : textList) {
+
+            auto text = i.second.text;
+            auto textSize = i.second.text.size();
+
+            pRenderTarget->DrawText(
+                text.c_str(),
+                textSize,
+                i.first,
+                D2D1::RectF(i.second.left, i.second.top, renderTargetSize.width, renderTargetSize.height),
+                pBlackBrush
+            );
+        }
 
         result = pRenderTarget->EndDraw();
 
