@@ -142,6 +142,8 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 }
 
 int count = 0;
+bool isFirstPaint = false;
+
 HWND hdlg;
 INT_PTR CALLBACK DialogProc(HWND hwnd, UINT msg, WPARAM wp, LPARAM lp)
 {
@@ -198,9 +200,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
     switch (message)
     {
     case WM_CREATE:
+    {
 
+    }
+	break;
 
-        break;
     case WM_COMMAND:
         {
             int wmId = LOWORD(wParam);
@@ -249,23 +253,32 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
             auto s = std::to_wstring(count);
 
             result = TextOut(hdc, 0, 20, s.c_str(), s.length());
+
+
+
             */
 
-            auto textStruct = d2dclass.CreateTextStructData(L"Meyrio", L"Dwrite rendered textです", 12, DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
-            /*
-            auto incrementValue = second.CreateTextStructData(L"Meyrio", L"Count: " + std::to_wstring(count), 32,
-                DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER, 0, 92);
-                */
-            // second.CreateD2DText(incrementValue);
 
             auto incrementValue = d2dclass.CreateTextStructData(L"Meyrio", L"Count: " + std::to_wstring(count), 32, DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER, 0, 92);
 
-            d2dclass.CreateD2DText(textStruct);
-            d2dclass.CreateD2DText(incrementValue);
-      
 
 
-            auto hr = d2dclass.OnRenderText();
+            HRESULT hr;
+
+            if (!isFirstPaint) {
+                auto textStruct = d2dclass.CreateTextStructData(L"Meyrio", L"Dwrite rendered textです", 12, DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER);
+
+                d2dclass.CreateD2DText(textStruct);
+                d2dclass.CreateD2DText(incrementValue);
+                isFirstPaint = true;
+            } else {
+
+                hr = d2dclass.UpdateD2DText(1, incrementValue);
+
+            }
+
+
+            hr = d2dclass.OnRenderText();
             // hr = d2dclass.OnRenderText(incrementValue);
             // auto hr_second = second.OnRenderText();
 

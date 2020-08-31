@@ -26,7 +26,7 @@ void D2DRenderClass::DiscardDeviceResources()
     }
 }
 
-HRESULT D2DRenderClass::CreateD2DText(const TextStruct &data)
+HRESULT D2DRenderClass::CreateD2DText(const TextStruct &data, bool isUpdate)
 {
  
     HRESULT result = pDirectWriteFactory->CreateTextFormat(
@@ -50,11 +50,31 @@ HRESULT D2DRenderClass::CreateD2DText(const TextStruct &data)
         printf_s("Detect Error at CreateTextFormat");
     }
 
-    textList.push_back(std::make_pair(pDWriteTextFormat, data));
+    if (!isUpdate) {
+        textList.push_back(std::make_pair(pDWriteTextFormat, data));
+    }
+
 
     // SafeRelease(&pDWriteTextFormat);
 
     return result;
+}
+
+HRESULT D2DRenderClass::UpdateD2DText(const unsigned int& index, const TextStruct &data)
+{
+
+    if ((textList.size() - 1) < index) {
+        return FALSE;
+    }
+
+    SafeRelease(&textList[index].first);
+
+    HRESULT result = CreateD2DText(data, true);
+
+    textList[index] = std::make_pair(pDWriteTextFormat, data);
+
+    return result;
+
 }
 
 HRESULT D2DRenderClass::CreateD2Ddevice()

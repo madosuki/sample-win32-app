@@ -59,7 +59,9 @@ public:
 
     HRESULT CreateD2DDeviceResource();
 
-    HRESULT CreateD2DText(const TextStruct &data);
+    HRESULT CreateD2DText(const TextStruct &data, bool isUpdate = false);
+
+    HRESULT UpdateD2DText(const unsigned int& index, const TextStruct &data);
 
     HRESULT OnRender();
 
